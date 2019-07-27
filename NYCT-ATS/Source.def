@@ -1,0 +1,13 @@
+LIBRARY NYCT-ATS
+
+EXPORTS
+	GetPluginVersion
+	SetVehicleSpec
+	Initialize
+	Elapse
+	SetBeaconData
+	DoorClose
+	DoorOpen
+	SetBrake
+	SetPower
+	SetReverser
