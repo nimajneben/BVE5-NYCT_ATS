@@ -36,6 +36,7 @@ public:
 	void reset()
 	{
 		TIMER_CALLTIME = 0;
+		TRIPPED = false;
 		
 	}
 	bool TRIPPED = false; //Was the train tripped? We'll initialize to true
