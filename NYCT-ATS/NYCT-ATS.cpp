@@ -47,6 +47,18 @@ ATS_API void WINAPI Initialize(int brake)
 	ATS_PLUGIN.reset();
 }
 
+ATS_API void WINAPI Load()
+{
+	KMH_SPEED = 0;
+	ATS_PLUGIN.reset();
+}
+
+ATS_API void WINAPI Dispose()
+{
+	KMH_SPEED = 0;
+	ATS_PLUGIN.reset();
+}
+
 //Game calls this every frame.
 ATS_API ATS_HANDLES WINAPI Elapse(ATS_VEHICLESTATE vehiclestate, int *panel, int *sound)
 {
@@ -55,6 +67,7 @@ ATS_API ATS_HANDLES WINAPI Elapse(ATS_VEHICLESTATE vehiclestate, int *panel, int
 	TIME = vehiclestate.Time;
 	panel[0] = speedo_kmh_to_mph(KMH_SPEED) % 10; //Ones digit of speedo
 	panel[1] = speedo_kmh_to_mph(KMH_SPEED) / 10; //Tens digit of speedo
+	if (panel[1] == 0) panel[1] = 10; //Make it blank on single digit speed.
 
 	if (ATS_PLUGIN.TRIPPED == true)
 	{
