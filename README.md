@@ -2,4 +2,6 @@
 
 Derived from the sample ATS project from Mackoy.
 
-This project was built from Visual Studio 2017.
+To build this project, clone this repository.
+
+This repository was built using Visual Studio 2017.
