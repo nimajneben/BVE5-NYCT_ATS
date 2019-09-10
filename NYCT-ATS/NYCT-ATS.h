@@ -1,6 +1,8 @@
 //Beacon Indices
 #define ATS_TRIP_COCK 0
 #define ATS_TIMER_START 1 //Beacon ID for Timer Section Start
+#define TRACK_DEAD_START 2 //Beacon to mark start of dead zone
+#define TRACK_DEAD_END 3 //Beacon to mark end of dead zone
 
 
 int EMG_BRAKE; //Brake Notch number corresponding to EMG
