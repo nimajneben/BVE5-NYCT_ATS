@@ -36,37 +36,38 @@ ATS_API int WINAPI GetPluginVersion()
 //Game provides vehicle data
 ATS_API void WINAPI SetVehicleSpec(ATS_VEHICLESPEC vehicleSpec)
 {
-	SVC_BRAKE = vehicleSpec.BrakeNotches; //Set our "constant" to num of brake notches
-	EMG_BRAKE = SVC_BRAKE + 1; //EMG is Service + 1
+	SVC_BRAKE = vehicleSpec.BrakeNotches;
+	EMG_BRAKE = SVC_BRAKE + 1;
 }
 
 //Game scenario is started
 ATS_API void WINAPI Initialize(int brake)
 {
+	KMH_SPEED = 0;
 	ATS_PLUGIN.reset();
 }
 
 ATS_API void WINAPI Load()
 {
+	KMH_SPEED = 0;
 	ATS_PLUGIN.reset();
 }
 
 ATS_API void WINAPI Dispose()
 {
+	KMH_SPEED = 0;
 	ATS_PLUGIN.reset();
 }
 
 //Game calls this every frame.
 ATS_API ATS_HANDLES WINAPI Elapse(ATS_VEHICLESTATE vehiclestate, int *panel, int *sound)
 {
-	//Output MPH
+	
 	KMH_SPEED = vehiclestate.Speed;
 	TIME = vehiclestate.Time;
 	panel[0] = speedo_kmh_to_mph(KMH_SPEED) % 10; //Ones digit of speedo
 	panel[1] = speedo_kmh_to_mph(KMH_SPEED) / 10; //Tens digit of speedo
 	if (panel[1] == 0) panel[1] = 10; //Make it blank on single digit speed.
-
-	//end
 
 	if (ATS_PLUGIN.TRIPPED == true)
 	{
@@ -86,15 +87,7 @@ ATS_API ATS_HANDLES WINAPI Elapse(ATS_VEHICLESTATE vehiclestate, int *panel, int
 		HANDLE_OUTPUT.Power = POWER_NOTCH;
 	}
 
-	if (DEAD_ZONE)
-	{
-		HANDLE_OUTPUT.Reverser = 0;
-	}
-	else
-	{
-		HANDLE_OUTPUT.Reverser = REVERSER;
-	}
-
+	HANDLE_OUTPUT.Reverser = REVERSER;
 	return HANDLE_OUTPUT;
 }
 
@@ -111,10 +104,6 @@ ATS_API void WINAPI SetBeaconData(ATS_BEACONDATA beaconData) {
 		{
 			ATS_PLUGIN.TRIPPED = true;
 		}
-		break;
-	case TRACK_DEAD_ZONE:
-		DEAD_ZONE = !DEAD_ZONE; //Toggle state.
-		break;
 	}
 }
 
