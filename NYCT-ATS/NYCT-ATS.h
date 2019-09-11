@@ -1,6 +1,7 @@
 //Beacon Indices
 #define ATS_TRIP_COCK 0
 #define ATS_TIMER_START 1 //Beacon ID for Timer Section Start
+#define TRACK_DEAD_ZONE 2 //Beacon to mark start of dead zone
 
 
 int EMG_BRAKE; //Brake Notch number corresponding to EMG
@@ -13,7 +14,7 @@ int TIME; // Current Time
 float KMH_SPEED; // Speed[km/h]
 int deltaT; // FrameRate[ms/frame]
 
-bool DEAD_ZONE; //Dead Zone Simulator
+bool DEAD_ZONE; //In Dead Zone 
 
 ATS_HANDLES HANDLE_OUTPUT; //Handle Output
 
@@ -37,6 +38,8 @@ public:
 	{
 		TIMER_CALLTIME = 0;
 		TRIPPED = false;
+		KMH_SPEED = 0;
+		DEAD_ZONE = false;
 		
 	}
 	bool TRIPPED = false; //Was the train tripped? We'll initialize to true
