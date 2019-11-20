@@ -13,7 +13,6 @@ int TIME; // Current Time
 float KMH_SPEED; // Speed[km/h]
 int deltaT; // FrameRate[ms/frame]
 
-bool DEAD_ZONE; //Dead Zone Simulator
 
 ATS_HANDLES HANDLE_OUTPUT; //Handle Output
 
@@ -32,14 +31,13 @@ private:
 	
 	 
 public:
-
+	bool TRIPPED = false;
 	void reset()
 	{
 		TIMER_CALLTIME = 0;
 		TRIPPED = false;
 		
 	}
-	bool TRIPPED = false; //Was the train tripped? We'll initialize to true
 
 	void begin_timer(int current_time, int timerlength)
 	{
