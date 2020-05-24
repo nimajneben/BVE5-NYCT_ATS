@@ -11,3 +11,5 @@ EXPORTS
 	SetBrake
 	SetPower
 	SetReverser
+	KeyDown
+	KeyUp

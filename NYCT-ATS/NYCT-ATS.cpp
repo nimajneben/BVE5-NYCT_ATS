@@ -6,6 +6,8 @@
 #include "NYCT-ATS.h"
 
 NYCT_ATS ATS_PLUGIN;
+NYCT_CBTC CBTC_PLUGIN;
+int MPH_SPEED;
 
 BOOL APIENTRY DllMain(HANDLE hModule,
 	DWORD  ul_reason_for_call,
@@ -45,12 +47,14 @@ ATS_API void WINAPI Initialize(int brake)
 {
 	KMH_SPEED = 0;
 	ATS_PLUGIN.reset();
+	CBTC_PLUGIN.YELLOW_ALARM = ATS_SOUND_STOP;
 }
 
 ATS_API void WINAPI Load()
 {
 	KMH_SPEED = 0;
 	ATS_PLUGIN.reset();
+	CBTC_PLUGIN.YELLOW_ALARM = ATS_SOUND_STOP;
 }
 
 ATS_API void WINAPI Dispose()
@@ -62,32 +66,53 @@ ATS_API void WINAPI Dispose()
 //Game calls this every frame.
 ATS_API ATS_HANDLES WINAPI Elapse(ATS_VEHICLESTATE vehiclestate, int *panel, int *sound)
 {
-	
+	//kmh to mph conversion
 	KMH_SPEED = vehiclestate.Speed;
 	TIME = vehiclestate.Time;
-	panel[0] = speedo_kmh_to_mph(KMH_SPEED) % 10; //Ones digit of speedo
-	panel[1] = speedo_kmh_to_mph(KMH_SPEED) / 10; //Tens digit of speedo
-	if (panel[1] == 0) panel[1] = 10; //Make it blank on single digit speed.
+	MPH_SPEED = speedo_kmh_to_mph(KMH_SPEED);
+	panel[0] = MPH_SPEED % 10; //Ones digit
+	panel[1] = MPH_SPEED / 10; //Tens digit
 
-	if (ATS_PLUGIN.TRIPPED == true)
-	{
+	if (panel[1] == 0) panel[1] = 10; 
+
+	//check tripped status
+	if (ATS_PLUGIN.TRIPPED || CBTC_PLUGIN.TRIPPED) 
 		HANDLE_OUTPUT.Brake = EMG_BRAKE;
-	}
-	else
-	{
+	else 
 		HANDLE_OUTPUT.Brake = BRAKE_NOTCH;
-	}
 
-	if (PILOT == false)
-	{
-		HANDLE_OUTPUT.Power = 0;
-	}
-	else
-	{
+	//power cut if doors open.
+	if 
+		(PILOT == false)	HANDLE_OUTPUT.Power = 0;
+	else 
 		HANDLE_OUTPUT.Power = POWER_NOTCH;
-	}
 
 	HANDLE_OUTPUT.Reverser = REVERSER;
+
+	//cbtc:
+	panel[101] = MPH_SPEED; //Both digits
+	panel[102] = (MPH_SPEED % 10) + (10 * (MPH_SPEED > 9)); //1-10mph LSB
+	panel[103] = (MPH_SPEED % 10) + (10 * (MPH_SPEED < 10)); //>10mph LSB
+	panel[104] = (MPH_SPEED / 10) + (10 * (MPH_SPEED < 10)); //>10mph MSB
+	panel[110] = CBTC_PLUGIN.YELLOW_LIMIT;
+	panel[111] = CBTC_PLUGIN.RED_LIMIT;
+	panel[112] = !CBTC_PLUGIN.YELLOW_ALARM;
+	panel[113] = !CBTC_PLUGIN.RED_ALARM;
+
+	sound[101] = CBTC_PLUGIN.YELLOW_ALARM;
+
+	if ((int)(KMH_SPEED * 10 )> CBTC_PLUGIN.YELLOW_LIMIT)
+	{
+		CBTC_PLUGIN.YELLOW_ALARM = ATS_SOUND_PLAYLOOPING;
+	}
+	else
+	{
+		CBTC_PLUGIN.YELLOW_ALARM = ATS_SOUND_STOP;
+	}
+
+
+	//misc: reserved for HVAC.
+	//sound[201]
 	return HANDLE_OUTPUT;
 }
 
@@ -100,7 +125,7 @@ ATS_API void WINAPI SetBeaconData(ATS_BEACONDATA beaconData) {
 		ATS_PLUGIN.begin_timer(TIME, beaconData.Optional);
 		break;
 	case ATS_TRIP_COCK:
-		if (KMH_SPEED > 5 && (beaconData.Signal == 0 || ATS_PLUGIN.timer_check_failed(TIME)) ) //Checking for RED Signal and we're going too fast.
+		if (KMH_SPEED > 5 && (beaconData.Signal == 0 || ATS_PLUGIN.timer_check_failed(TIME)) ) //Checking for RED Signal and if we're going too fast.
 		{
 			ATS_PLUGIN.TRIPPED = true;
 		}
@@ -135,4 +160,19 @@ ATS_API void WINAPI SetPower(int notch)
 ATS_API void WINAPI SetReverser(int pos)
 {
 	REVERSER = pos;
+}
+
+//Game calls this when an ATS key was pressed.
+ATS_API void WINAPI KeyDown(int atsKeyCode)
+{
+	//CBTC_PLUGIN.YELLOW_ALARM = ATS_SOUND_PLAYLOOPING;
+}
+
+//Game calls this when an ATS key was released.
+ATS_API void WINAPI KeyUp(int atsKeyCode)
+{
+	//if (atsKeyCode == ATS_KEY_S) //space
+	//{
+	//	CBTC_PLUGIN.YELLOW_ALARM = ATS_SOUND_STOP;
+	//}
 }

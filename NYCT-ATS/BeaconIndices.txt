@@ -1,0 +1,6 @@
+NYCT-ATS Beacon Indexes
+0
+1 - Auto/App Triparm
+2 - Homeball Triparm
+11 - GT timer start
+12 -
