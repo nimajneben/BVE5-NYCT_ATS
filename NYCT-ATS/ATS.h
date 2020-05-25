@@ -10,6 +10,7 @@ private:
 	//two-shot variables
 	std::array<std::array<int, 2>, 2> mt2_timer = {0,0,0,0};	//n shot, then n timer.
 	std::array<bool, 2> mt2_timerpass = { 0,0 };		//n timer, shot suceeded
+	int selector = 0; //array selector. (0,1)
 
 
 public:
@@ -20,6 +21,7 @@ public:
 	void RunAts()
 	{
 		if (mt_timer)
+			if()
 	}
 
 	//passed key-byable signal
@@ -51,30 +53,29 @@ public:
 
 	void TimerPassTS(int beacontype, int timer)
 	{
-		switch(beacontype)
-			case 11:
-				if (!mt2_timer[0][0])
-				{
-					mt2_timer[0][0] = *TIME;
-					mt2_timerpass[0][0] = false;
-				}
-				else
-				{
-					mt2_timer[1][0] = *TIME;
-					mt2_timerpass[1][0] = false;
-				}
-				break;
-			case 12:
-				if (!mt2_timer[0][0])
-				{
-					mt2_timer[0][1] = *TIME;
-				}
+		switch (beacontype)
+		{
+		case 11: //start s timing
+			mt2_timer[selector ^= 0x1][0] = *TIME;
+			mt2_timerpass[selector] = false;
+			break;
+		case 12: //after s timing
+			if (!mt2_timerpass[selector])
+				mt2_timer[selector][1] = *TIME;
+			break;
+		case 13: //after timing signal
+			if (!mt2_timerpass[selector ^ 0x1] && mt2_timer[selector ^ 0x1][1] + timer < *TIME) 
+				ATS_BRAKE == true;
+			break;
+			
+		}
 	}
 
 	//cancel timer
 	void TimerCancel()
 	{
 		mt_timer = 0;
+		mt2_timer.fill({ 0,0 });
 	}
 
 };
