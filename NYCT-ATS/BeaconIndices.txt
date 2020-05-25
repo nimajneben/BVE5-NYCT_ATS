@@ -2,5 +2,12 @@ NYCT-ATS Beacon Indexes
 0
 1 - Auto/App Triparm
 2 - Homeball Triparm
-11 - GT timer start
-12 -
+
+#(all timer beacons take extra value as timer length in tenths second)
+
+11 - 1GT timer start	
+12 - ST timer start		
+
+21 - 2GT Shot 1 Start
+22 - 2GT Shot 2 Start / Shot 1 End
+23 - 2GT Shot 2 End

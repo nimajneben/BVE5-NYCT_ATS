@@ -1,8 +1,16 @@
+#include<array>
 class NYCT_ATS2 {
 private:
+
+	//one-shot varables
 	int mt_timer = 0;	//game time when next ATS beacon passed.
 	bool mt_chain = 0;	//timers in sequence
-	int mt_type = 0;	//timer type (SG)
+	int mt_type = 0;	//timer type (SG(T))
+
+	//two-shot variables
+	std::array<std::array<int, 2>, 2> mt2_timer = {0,0,0,0};	//n shot, then n timer.
+	std::array<bool, 2> mt2_timerpass = { 0,0 };		//n timer, shot suceeded
+
 
 public:
 	bool ATS_BRAKE;		//tripped?
@@ -11,7 +19,7 @@ public:
 
 	void RunAts()
 	{
-
+		if (mt_timer)
 	}
 
 	//passed key-byable signal
@@ -41,7 +49,27 @@ public:
 		else mt_timer = 0;
 	}
 
-	void TimerPassTS()
+	void TimerPassTS(int beacontype, int timer)
+	{
+		switch(beacontype)
+			case 11:
+				if (!mt2_timer[0][0])
+				{
+					mt2_timer[0][0] = *TIME;
+					mt2_timerpass[0][0] = false;
+				}
+				else
+				{
+					mt2_timer[1][0] = *TIME;
+					mt2_timerpass[1][0] = false;
+				}
+				break;
+			case 12:
+				if (!mt2_timer[0][0])
+				{
+					mt2_timer[0][1] = *TIME;
+				}
+	}
 
 	//cancel timer
 	void TimerCancel()
