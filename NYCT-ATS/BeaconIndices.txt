@@ -8,10 +8,8 @@ NYCT-ATS Beacon Indexes
 11 - 1GT timer start	
 12 - ST timer start		
 
-21 - 2GT Shot 1 Start
-22 - 2GT Shot 2 Start / Shot 1 End
-23 - 2GT Shot 2 End
+21/24/27 - 2GT Shot 1 Start
+22/25/28 - 2GT Shot 1 End / Shot 2 Start
+23/26/29 - 2GT Shot 2 End
 
-for these beacons, you must place the timers in FIFO order.
-(e.g.) at a point where 22 happens and 21 in another timer happens,
-place 22 before 21.
+21-23, 24-26, 27-29 are the three timers that can be used simultaneously.
