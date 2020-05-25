@@ -13,10 +13,6 @@ int TIME; // Current Time
 float KMH_SPEED; // Speed[km/h]
 int deltaT; // FrameRate[ms/frame]
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 ATS_HANDLES HANDLE_OUTPUT; //Handle Output
 
 //KMH -> MPH, floor, and bounds check to 99 mph.
@@ -34,11 +30,8 @@ private:
 	
 	 
 public:
-<<<<<<< Updated upstream
-	bool TRIPPED = false;
-=======
 	bool TRIPPED = false; //Was the train tripped?
->>>>>>> Stashed changes
+
 	void reset()
 	{
 		TIMER_CALLTIME = 0;
@@ -58,8 +51,6 @@ public:
 	}
 
 };
-<<<<<<< Updated upstream
-=======
 
 class NYCT_CBTC
 {
@@ -84,7 +75,7 @@ public:
 
 
 
-	
+
 	//functions
 	void initATPM()
 	{
@@ -102,7 +93,7 @@ public:
 		*/
 	}
 
-	int startATO(int &speed)
+	int startATO(int& speed)
 	{
 		/*
 		If SPEED < YELLOW_LIMIT, accelerate
@@ -119,7 +110,7 @@ public:
 		else return 0;
 	}
 
-	int accelATO(int &speed)
+	int accelATO(int& speed)
 	{
 
 	}
@@ -129,4 +120,3 @@ public:
 		if (YELLOW_ALARM == 1);
 	}
 };
->>>>>>> Stashed changes
