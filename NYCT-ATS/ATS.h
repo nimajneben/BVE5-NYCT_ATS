@@ -2,21 +2,21 @@
 class NYCT_ATS2 {
 private:
 
-	//one-shot varables
+	//one-shot variables
 	int mt_timer = 0;	//game time when next ATS beacon passed.
 	bool mt_chain = 0;	//timers in sequence
 	int mt_type = 0;	//timer type (SG(T))
 
 	//two-shot variables
-	std::array<std::array<int, 2>, 2> mt2_timer = {0,0,0,0};	//n shot, then n timer.
-	std::array<bool, 2> mt2_timerpass = { 0,0 };		//n timer, shot suceeded
-	int selector = 0; //array selector. (0,1)
+	std::array<std::array<int, 2>, 3> mt2_timer = { {0,0} };	//n shot, then n timer.
+	std::array<bool, 3> mt2_en = { 0,0,0 };		//n timer, shot suceeded
 
 
 public:
 	bool ATS_BRAKE;		//tripped?
 	float* SPEED_KMH;	//train speed in kmh
 	int* TIME;			//time in-game
+
 
 	void RunAts()
 	{
@@ -55,19 +55,26 @@ public:
 	{
 		switch (beacontype)
 		{
-		case 11: //start s timing
-			mt2_timer[selector ^= 0x1][0] = *TIME;
-			mt2_timerpass[selector] = false;
+			int i = (beacontype % 3);	//selector.
+		case 21:
+		case 24:
+		case 27:	//start s timing
+			mt2_timer[i][0] = *TIME;
+			mt2_en[i] = false;
 			break;
-		case 12: //after s timing
-			if (!mt2_timerpass[selector])
-				mt2_timer[selector][1] = *TIME;
+		case 22:
+		case 25:
+		case 28:	//after s timing
+			if (!mt2_en[i])
+				mt2_timer[i][1] = *TIME;
 			break;
-		case 13: //after timing signal
-			if (!mt2_timerpass[selector ^ 0x1] && mt2_timer[selector ^ 0x1][1] + timer < *TIME) 
+		case 23:
+		case 26:
+		case 29:	//after timing signal
+			if (!mt2_en[i] && mt2_timer[i][1] + timer < *TIME)
 				ATS_BRAKE == true;
 			break;
-			
+
 		}
 	}
 
@@ -75,7 +82,16 @@ public:
 	void TimerCancel()
 	{
 		mt_timer = 0;
-		mt2_timer.fill({ 0,0 });
+		mt2_timer.fill({ 0,0,0 });
 	}
 
+	void TimerDisableOS()
+	{
+		mt_timer = 0;
+	}
+
+	void TimerDisableTS(int beacontype)
+	{
+		mt2_en[beacontype % 3] = true;
+	}
 };
