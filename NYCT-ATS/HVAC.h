@@ -10,18 +10,12 @@ private:
 	int temperature;	//what the thermistor reads
 	std::ifstream tempfile; //temperature file
 public:
-	bool enabled;	//Plugin Status
 	bool active;	//HVAC status
-	NYCT_HVAC() //Init HVAC
+	bool InitHVAC() //Init HVAC
 	{
-		std::ifstream tempfile("Temp.csv");
-		if (!tempfile.is_open())
-		{
-			enabled = false;
-			return;
-			//TODO: Read temp file and parse into envvars.
-		}
-		
+		if (!tempfile.open) return false;
+		temperature = bg_temp;
+		return true;
 	}
 
 	void RunHVAC()
