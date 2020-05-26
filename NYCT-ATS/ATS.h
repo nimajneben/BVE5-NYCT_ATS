@@ -1,4 +1,11 @@
 #include<array>
+
+int speedo_kmh_to_mph(float& kmh) {
+	int result = floor(fabs(0.6213711922 * kmh));
+	if (result > 99) result = 99;
+	return result;
+}; //KMH -> MPH and floor.
+
 class NYCT_ATS2 {
 private:
 
@@ -16,12 +23,17 @@ public:
 	bool ATS_BRAKE;		//tripped?
 	float* SPEED_KMH;	//train speed in kmh
 	int* TIME;			//time in-game
+	int HUD_DISPLAY = 99;	//hud display
 
 
 	void RunAts()
 	{
-		if (mt_timer)
-			if()
+		if (mt_timer > * TIME)
+		{
+			mt_timer = 0;
+			HUD_DISPLAY = 1;
+		}
+		for (int i = 0; i < )
 	}
 
 	//passed key-byable signal
