@@ -4,8 +4,9 @@
 #include "stdafx.h"
 #include "atsplugin.h"
 #include "NYCT-ATS.h"
+#include "ATS.h"
 
-NYCT_ATS ATS_PLUGIN;
+NYCT2_ATS ATS_PLUGIN;
 NYCT_CBTC CBTC_PLUGIN;
 int MPH_SPEED;
 
@@ -72,6 +73,7 @@ ATS_API ATS_HANDLES WINAPI Elapse(ATS_VEHICLESTATE vehiclestate, int *panel, int
 	MPH_SPEED = speedo_kmh_to_mph(KMH_SPEED);
 	panel[0] = MPH_SPEED % 10; //Ones digit
 	panel[1] = MPH_SPEED / 10; //Tens digit
+	panel[2] = 
 
 	if (panel[1] == 0) panel[1] = 10; 
 
