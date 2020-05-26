@@ -9,6 +9,7 @@ private:
 	int rate_dynamicbr;		//heating rate when dynamic brakes are applied (>1)
 	int temperature;	//what the thermistor reads
 	std::ifstream tempfile; //temperature file
+
 public:
 	bool active;	//HVAC status
 	bool InitHVAC() //Init HVAC
