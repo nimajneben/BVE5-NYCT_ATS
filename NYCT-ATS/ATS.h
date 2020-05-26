@@ -28,12 +28,7 @@ public:
 
 	void RunAts()
 	{
-		if (mt_timer > * TIME)
-		{
-			mt_timer = 0;
-			HUD_DISPLAY = 1;
-		}
-		for (int i = 0; i < )
+
 	}
 
 	//passed key-byable signal
@@ -106,4 +101,11 @@ public:
 	{
 		mt2_en[beacontype % 3] = true;
 	}
+};
+
+class NYCT_ATS_HUD
+{
+private:
+	int block_aspect; //what the block aspect should be.
+
 };
