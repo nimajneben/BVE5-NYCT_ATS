@@ -5,9 +5,13 @@
 #include "atsplugin.h"
 #include "NYCT-ATS.h"
 #include "ATS.h"
+#include "HVAC.h"
 
-NYCT2_ATS ATS_PLUGIN;
+NYCT_ATS2 ATS_PLUGIN;
+NYCT_HUD HUD_PLUGIN;
 NYCT_CBTC CBTC_PLUGIN;
+NYCT_HVAC HVAC_PLUGIN;
+
 int MPH_SPEED;
 
 BOOL APIENTRY DllMain(HANDLE hModule,
@@ -73,7 +77,7 @@ ATS_API ATS_HANDLES WINAPI Elapse(ATS_VEHICLESTATE vehiclestate, int *panel, int
 	MPH_SPEED = speedo_kmh_to_mph(KMH_SPEED);
 	panel[0] = MPH_SPEED % 10; //Ones digit
 	panel[1] = MPH_SPEED / 10; //Tens digit
-	panel[2] = 
+	//panel[2] = 
 
 	if (panel[1] == 0) panel[1] = 10; 
 
