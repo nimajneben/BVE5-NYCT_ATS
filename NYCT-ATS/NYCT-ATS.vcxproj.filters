@@ -36,6 +36,12 @@
     <ClInclude Include="ATS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Brake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="streamheader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
