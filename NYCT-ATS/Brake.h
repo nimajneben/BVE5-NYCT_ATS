@@ -8,11 +8,13 @@
 //	We'll assume that sound 1 plays for the first half of the 
 //	pressure reduction, and sound 2 for the other half.
 
+//  This falls back to the standard air sounds while using dynamic brakes.
+
 #include "streamheader.h"
 #include "stdafx.h"
 
 //	format of brake csv file:
-//	BrakeNotch,BCPressure
+//	BcP[0],BcP[1],... (in kPa)
 
 
 class NYCT_BRAKE
@@ -20,18 +22,36 @@ class NYCT_BRAKE
 private:
 	int sound; //current sound playing.
 	std::ifstream brakefile;
-
+	std::ofstream test_bpcfile;
+	float bcpb, bcpe;
+	int bnb, bne;
+	
 public:
 	bool enabled = false;
+	int sound1 = ATS_SOUND_STOP;
+	int sound2 = ATS_SOUND_STOP;
 	NYCT_BRAKE()
 	{
-		std::ifstream brakefile("Brake.csv");
-		if brakefile.is_open() enabled = true;
+		brakefile.open("Brake.csv");
+		test_bpcfile.open("C:\\Users\\ben\\bpctest.txt");
+		if (!brakefile.is_open()) return;
+		enabled = true;
+
 	}
 
-	int PlaySound()
+	int RunSound()
 	{
-		r
+		
 	}
 
+	void DebugWriteBCP(float bpc, char DllPath[MAX_PATH])
+	{
+		test_bpcfile << "DLL reads current directory as: " << DllPath << std::endl;
+		test_bpcfile << bpc << std::endl;
+	}
+
+	void NotchChange()
+	{
+
+	}
 };
