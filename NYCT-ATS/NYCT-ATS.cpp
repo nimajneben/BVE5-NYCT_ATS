@@ -23,6 +23,10 @@ BOOL APIENTRY DllMain(HANDLE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 		//Initialize variables here with pointers to actual ingame stuff
+
+		GetModuleFileNameA(hModule, DllPath, MAX_PATH);
+		DllPathS = DllPath;
+
 		
 		break;
 	case DLL_THREAD_ATTACH:
