@@ -90,6 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;NYCTATS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,6 +155,7 @@
     <ClInclude Include="Brake.h" />
     <ClInclude Include="ATS.h" />
     <ClInclude Include="atsplugin.h" />
+    <ClInclude Include="CBTC.h" />
     <ClInclude Include="HVAC.h" />
     <ClInclude Include="NYCT-ATS.h" />
     <ClInclude Include="resource.h" />
