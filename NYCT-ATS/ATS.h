@@ -1,10 +1,11 @@
 #include<array>
 
-int speedo_kmh_to_mph(float& kmh) {
-	int result = floor(fabs(0.6213711922 * kmh));
-	if (result > 99) result = 99;
-	return result;
-}; //KMH -> MPH and floor.
+//disabled because already defined in the old ATS class.
+//int speedo_kmh_to_mph(float& kmh) {
+//	int result = floor(fabs(0.6213711922 * kmh));
+//	if (result > 99) result = 99;
+//	return result;
+//}; //KMH -> MPH and floor.
 
 class NYCT_ATS2 {
 private:
