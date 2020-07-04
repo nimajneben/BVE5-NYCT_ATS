@@ -1,9 +1,6 @@
 //HVAC.h
 //Contains logic used to sound the cooling fan.
-#include<iostream>
-#include<fstream>
-
-std::ifstream tempfile("temp.txt"); //temperature file
+#include"streamheader.h"
 
 class NYCT_HVAC {
 private:
@@ -11,13 +8,20 @@ private:
 	int rate_frictionbr;	//heating rate when friction brakes are applied (>1)
 	int rate_dynamicbr;		//heating rate when dynamic brakes are applied (>1)
 	int temperature;	//what the thermistor reads
+	std::ifstream tempfile; //temperature file
 public:
+	bool enabled;	//Plugin Status
 	bool active;	//HVAC status
-	bool InitHVAC() //Init HVAC
+	NYCT_HVAC() //Init HVAC
 	{
-		if (!tempfile.open) return false;
-		temperature = bg_temp;
-		return true;
+		std::ifstream tempfile("Temp.csv");
+		if (!tempfile.is_open())
+		{
+			enabled = false;
+			return;
+			//TODO: Read temp file and parse into envvars.
+		}
+		
 	}
 
 	void RunHVAC()
