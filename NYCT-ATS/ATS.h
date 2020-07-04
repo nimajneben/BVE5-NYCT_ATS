@@ -21,7 +21,7 @@ private:
 
 
 public:
-	bool ATS_BRAKE;		//tripped?
+	bool ATS_EB;		//tripped?
 	float* SPEED_KMH;	//train speed in kmh
 	int* TIME;			//time in-game
 	int HUD_DISPLAY = 99;	//hud display
@@ -36,14 +36,14 @@ public:
 	//signal: state
 	void PassAutoAppr(int signal)
 	{
-		if (signal == 1 && *SPEED_KMH > 5.0) ATS_BRAKE = true;
+		if (signal == 1 && *SPEED_KMH > 5.0) ATS_EB = true;
 	}
 	
 	//passed no-key-by signal
 	//signal: state
 	void PassHome(int signal)
 	{
-		if (signal <= 1) ATS_BRAKE = true;;
+		if (signal <= 1) ATS_EB = true;;
 	}
 
 	//passed one-shot timer
@@ -51,7 +51,7 @@ public:
 	{
 		if (mt_timer && *TIME < mt_timer)
 		{
-			ATS_BRAKE = true; mt_timer = 0;
+			ATS_EB = true; mt_timer = 0;
 
 		}
 
@@ -80,7 +80,7 @@ public:
 		case 26:
 		case 29:	//after timing signal
 			if (!mt2_en[i] && mt2_timer[i][1] + timer < *TIME)
-				ATS_BRAKE == true;
+				ATS_EB = true;
 			break;
 
 		}
