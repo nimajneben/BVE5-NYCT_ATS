@@ -6,15 +6,24 @@
 #include "NYCT-ATS.h"
 #include "ATS.h"
 #include "HVAC.h"
-
-NYCT_ATS2 ATS_PLUGIN;
-NYCT_HUD HUD_PLUGIN;
-NYCT_CBTC CBTC_PLUGIN;
-NYCT_HVAC HVAC_PLUGIN;
+#include "CBTC.h"
+#include "Brake.h"
 
 int MPH_SPEED;
+//test charge sound (255)
+int charge;
+int MPH_SPEED;
+char DllPath[MAX_PATH] = "0";
+std::string DllPathS;
 
-BOOL APIENTRY DllMain(HANDLE hModule,
+NYCT_ATS ATS_PLUGIN;
+NYCT_ATS2 ATS_PLUGIN2;
+//NYCT_HUD HUD_PLUGIN;
+NYCT_CBTC CBTC_PLUGIN;
+NYCT_HVAC HVAC_PLUGIN;
+NYCT_BRAKE BRAKE_PLUGIN;
+
+BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved
 )
@@ -120,9 +129,14 @@ ATS_API ATS_HANDLES WINAPI Elapse(ATS_VEHICLESTATE vehiclestate, int *panel, int
 		CBTC_PLUGIN.YELLOW_ALARM = ATS_SOUND_STOP;
 	}
 
+	HANDLE_OUTPUT.Reverser = REVERSER;
 
 	//misc: reserved for HVAC.
 	//sound[201]
+
+	//brake test here.
+	BRAKE_PLUGIN.DebugWriteBCP(vehiclestate.BcPressure, DllPath);
+
 	return HANDLE_OUTPUT;
 }
 
@@ -158,6 +172,8 @@ ATS_API void WINAPI DoorOpen()
 ATS_API void WINAPI SetBrake(int notch)
 {
 	BRAKE_NOTCH = notch;
+	if (notch == EMG_BRAKE - 1) charge = ATS_SOUND_PLAY;
+	else charge = ATS_SOUND_STOP;
 }
 
 //Game calls this when the master controller is changed.
