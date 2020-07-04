@@ -61,9 +61,9 @@ public:
 
 	void TimerPassTS(int beacontype, int timer)
 	{
+		int i = (beacontype % 3);	//selector.
 		switch (beacontype)
 		{
-			int i = (beacontype % 3);	//selector.
 		case 21:
 		case 24:
 		case 27:	//start s timing
