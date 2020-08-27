@@ -5,12 +5,10 @@
 #include "atsplugin.h"
 #include "NYCT-ATS.h"
 #include "ATS.h"
-#include "HVAC.h"
+#include "CBTC.h"
 
 NYCT_ATS2 ATS_PLUGIN;
-NYCT_HUD HUD_PLUGIN;
 NYCT_CBTC CBTC_PLUGIN;
-NYCT_HVAC HVAC_PLUGIN;
 
 int MPH_SPEED;
 
