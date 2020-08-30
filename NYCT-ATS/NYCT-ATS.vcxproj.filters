@@ -27,9 +27,6 @@
     <ClInclude Include="atsplugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HVAC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NYCT-ATS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
