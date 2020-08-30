@@ -152,11 +152,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Brake.h" />
     <ClInclude Include="ATS.h" />
     <ClInclude Include="atsplugin.h" />
     <ClInclude Include="CBTC.h" />
-    <ClInclude Include="HVAC.h" />
     <ClInclude Include="NYCT-ATS.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
