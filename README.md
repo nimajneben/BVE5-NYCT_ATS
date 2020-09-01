@@ -2,6 +2,8 @@
 
 This BVE5 plugin aims to be as realistic as possible to emulate the safety systems of New York City Transit.
 
+This branch (Car-Jerk) will implement a more smart car jerk playback mechanism, done within the ATS
+
 ---
 Currently this supports:
  * KMH to MPH Conversion
